@@ -1,0 +1,19 @@
+type SalesOrderItem {
+    uuid                : String!
+    quantity            : PositiveInt!
+    notes               : String
+    modelUuid           : String!
+    modelDetail         : SimpleModel
+}
+
+type SimpleModel {
+    uuid            : String!
+    name            : String!
+    onTheRoadPrice  : PositiveFloat
+    transmission    : String
+    exteriorColor   : String
+    interiorColor   : String
+    releaseYear     : Int
+    bodyType        : String
+    fuel            : String
+}

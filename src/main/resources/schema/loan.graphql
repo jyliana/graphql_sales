@@ -1,0 +1,8 @@
+type Loan {
+    uuid                : String!
+    financeCompany      : String!
+    contactPersonName   : String!
+    contactPersonPhone  : String!
+    contactPersonEmail  : String!
+}
+
