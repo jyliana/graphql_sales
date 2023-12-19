@@ -61,6 +61,20 @@
         </dependency>
 
         <dependency>
+            <groupId>com.netflix.graphql.dgs</groupId>
+            <artifactId>graphql-dgs-pagination</artifactId>
+            <version>${graphql-dgs.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.graphql.dgs</groupId>
+            <artifactId>graphql-dgs-extended-validation</artifactId>
+            <version>${graphql-dgs.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.ocpsoft.prettytime</groupId>
             <artifactId>prettytime</artifactId>
             <version>5.0.7.Final</version>
@@ -122,6 +136,7 @@
                                 <PositiveFloat>java.lang.Double</PositiveFloat>
                                 <NegativeInt>java.lang.Integer</NegativeInt>
                                 <NegativeFloat>java.lang.Double</NegativeFloat>
+                                <CustomerConnection>graphql.relay.Connection</CustomerConnection>
                             </typeMapping>
                         </configuration>
                     </execution>

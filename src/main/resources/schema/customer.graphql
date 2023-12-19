@@ -1,4 +1,4 @@
-type Customer  {
+type Customer @connection {
     uuid                : String!
     fullName            : String!
     birthDate           : Date!
@@ -7,6 +7,37 @@ type Customer  {
     salesOrders         : [SalesOrder!]
     addresses           : [Address!]
     documents           : [Document!]
+}
+
+input AddCustomerInput{
+    fullName            : String!
+    birthDate           : Date!
+    email               : String!
+    phone               : String!
+    addresses           : [AddAddressInput!]
+}
+
+
+input UniqueCustomerInput {
+    """
+    Backend must check that one of uuid or email exists, but not both
+    """
+    uuid    : String
+    email   : String
+}
+
+type CustomerMutationResponse implements MutationResponse {
+    success             : Boolean!
+    message             : String
+    customerUuid        : String
+}
+
+type CustomerPagination{
+    customerConnection  : CustomerConnection
+    page                : Int!
+    size                : Int!
+    totalPage           : Int!
+    totalElement        : Long!
 }
 
 input UpdateCustomerInput {
