@@ -137,6 +137,7 @@
                                 <NegativeInt>java.lang.Integer</NegativeInt>
                                 <NegativeFloat>java.lang.Double</NegativeFloat>
                                 <CustomerConnection>graphql.relay.Connection</CustomerConnection>
+                                <Upload>org.springframework.web.multipart.MultipartFile</Upload>
                             </typeMapping>
                         </configuration>
                     </execution>

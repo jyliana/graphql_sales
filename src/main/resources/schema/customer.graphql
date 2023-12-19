@@ -10,13 +10,12 @@ type Customer @connection {
 }
 
 input AddCustomerInput{
-    fullName            : String!
-    birthDate           : Date!
-    email               : String!
-    phone               : String!
+    fullName    : String! @NotBlank @Pattern(regexp: "^[A-Za-z ]{5,50}$")
+    birthDate   : Date!
+    email       : String! @Pattern(regexp: "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
+    phone       : String! @Pattern(regexp: "^[0-9]{5,15}$")
     addresses           : [AddAddressInput!]
 }
-
 
 input UniqueCustomerInput {
     """

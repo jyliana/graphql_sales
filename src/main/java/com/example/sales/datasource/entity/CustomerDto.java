@@ -32,4 +32,10 @@ public class CustomerDto {
   @Fetch(FetchMode.SUBSELECT)
   private List<AddressDto> addresses;
 
+  @OneToMany
+  @JoinColumn(name = "customer_uuid")
+  @Cascade(org.hibernate.annotations.CascadeType.ALL)
+  @Fetch(FetchMode.SUBSELECT)
+  private List<CustomerDocument> documents;
+
 }

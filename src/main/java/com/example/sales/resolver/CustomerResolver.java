@@ -1,5 +1,6 @@
 package com.example.sales.resolver;
 
+import com.example.graphql.DgsConstants;
 import com.example.graphql.types.*;
 import com.example.sales.service.command.CustomerCommandService;
 import com.example.sales.service.query.CustomerQueryService;
@@ -11,6 +12,7 @@ import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.relay.SimpleListConnection;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,6 +75,30 @@ public class CustomerResolver {
     paginatedResult.setTotalPage(pageCustomer.getTotalPages());
 
     return paginatedResult;
+  }
+
+  @DgsMutation
+  public CustomerMutationResponse addDocumentToExistingCustomer(
+          @InputArgument UniqueCustomerInput customer,
+          @InputArgument String documentType,
+          DataFetchingEnvironment env
+  ) {
+    var existingCustomer = customerQueryService.findUniqueCustomer(customer);
+
+    if (existingCustomer.isEmpty()) {
+      throw new DgsEntityNotFoundException(
+              String.format("Customer: uuid %s / email %s not found", customer.getUuid(), customer.getEmail()));
+    }
+
+    MultipartFile documentFile = env.getArgument(DgsConstants.MUTATION.ADDDOCUMENTTOEXISTINGCUSTOMER_INPUT_ARGUMENT.DocumentFile);
+
+    customerCommandService.addDocumentToExistingCustomer(existingCustomer.get(), documentType, documentFile);
+
+    return CustomerMutationResponse.newBuilder()
+            .customerUuid(existingCustomer.get().getUuid().toString())
+            .success(true)
+            .message(documentFile.getOriginalFilename() + " uploaded")
+            .build();
   }
 
 }
