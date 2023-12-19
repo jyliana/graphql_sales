@@ -5,7 +5,6 @@ import com.example.graphql.types.AddCustomerInput;
 import com.example.sales.datasource.entity.CustomerDto;
 import com.example.sales.datasource.repository.CustomerRepository;
 import com.example.sales.mapper.AddressMapper;
-import com.example.sales.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

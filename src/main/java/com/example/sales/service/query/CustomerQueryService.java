@@ -51,9 +51,7 @@ public class CustomerQueryService {
     if (customer.isPresent()) {
       var existingCustomer = findUniqueCustomer(customer.get());
 
-      return existingCustomer.isPresent() ?
-              new PageImpl<>(List.of(existingCustomer.get()), pageable, 1) :
-              new PageImpl<>(Collections.emptyList(), pageable, 0);
+      return existingCustomer.map(customerDto -> new PageImpl<>(List.of(customerDto), pageable, 1)).orElseGet(() -> new PageImpl<>(Collections.emptyList(), pageable, 0));
     }
 
     return customerRepository.findAll(pageable);
