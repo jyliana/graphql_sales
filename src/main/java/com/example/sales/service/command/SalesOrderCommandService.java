@@ -6,18 +6,16 @@ import com.example.sales.datasource.repository.CustomerRepository;
 import com.example.sales.datasource.repository.SalesOrderRepository;
 import com.example.sales.mapper.SalesOrderMapper;
 import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class SalesOrderCommandService {
 
-  @Autowired
   private SalesOrderRepository salesOrderRepository;
-
-  @Autowired
   private CustomerRepository customerRepository;
 
   public SalesOrderDto addNewSalesOrder(AddSalesOrderInput addSalesOrderInput) {

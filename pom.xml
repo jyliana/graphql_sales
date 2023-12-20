@@ -127,7 +127,7 @@
                             <addGeneratedAnnotation>true</addGeneratedAnnotation>
                             <typeMapping>
                                 <Date>java.time.LocalDate</Date>
-                                <DateTime>java.time.OffsetDateTime</DateTime>
+                                <DateTime>java.time.ZonedDateTime</DateTime>
                                 <NonNegativeInt>java.lang.Integer</NonNegativeInt>
                                 <NonPositiveInt>java.lang.Integer</NonPositiveInt>
                                 <NonPositiveFloat>java.lang.Double</NonPositiveFloat>

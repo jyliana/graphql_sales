@@ -6,12 +6,12 @@ import com.example.sales.service.command.SalesOrderCommandService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 
 @DgsComponent
+@AllArgsConstructor
 public class SalesOrderResolver {
 
-  @Autowired
   private SalesOrderCommandService salesOrderCommandService;
 
   @DgsMutation

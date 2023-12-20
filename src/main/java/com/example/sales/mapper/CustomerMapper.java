@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public class CustomerMapper {
 
+  private CustomerMapper() {
+  }
+
   public static CustomerDto mapToEntity(AddCustomerInput original) {
     var mapped = new CustomerDto();
 
@@ -39,14 +42,14 @@ public class CustomerMapper {
 //                .orElse(Collections.emptyList())
 //                .stream().map(DocumentMapper::mapToGraphqlEntity)
 //                .toList();
-//        var mappedSalesOrders = Optional.ofNullable(original.getSalesOrders())
-//                .orElse(Collections.emptyList())
-//                .stream().map(SalesOrderMapper::mapToGraphqlEntity)
-//                .toList();
+    var mappedSalesOrders = Optional.ofNullable(original.getSalesOrders())
+            .orElse(Collections.emptyList())
+            .stream().map(SalesOrderMapper::mapToGraphqlEntity)
+            .toList();
 
     mapped.setAddresses(mappedAddress);
 //        mapped.setDocuments(mappedDocuments);
-//        mapped.setSalesOrders(mappedSalesOrders);
+    mapped.setSalesOrders(mappedSalesOrders);
     mapped.setUuid(original.getUuid().toString());
     mapped.setEmail(original.getEmail());
     mapped.setPhone(original.getPhone());

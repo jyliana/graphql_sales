@@ -7,8 +7,8 @@ import com.example.sales.datasource.entity.CustomerDocument;
 import com.example.sales.datasource.entity.CustomerDto;
 import com.example.sales.datasource.repository.CustomerRepository;
 import com.example.sales.mapper.AddressMapper;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,9 +18,9 @@ import static com.example.sales.mapper.CustomerMapper.mapToEntity;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
+@AllArgsConstructor
 public class CustomerCommandService {
 
-  @Autowired
   private CustomerRepository customerRepository;
 
   public CustomerDto addNewCustomer(AddCustomerInput input) {

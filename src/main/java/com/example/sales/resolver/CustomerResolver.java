@@ -2,8 +2,10 @@ package com.example.sales.resolver;
 
 import com.example.graphql.DgsConstants;
 import com.example.graphql.types.*;
+import com.example.sales.mapper.CustomerMapper;
 import com.example.sales.service.command.CustomerCommandService;
 import com.example.sales.service.query.CustomerQueryService;
+import com.example.sales.service.query.ProductQueryService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
@@ -11,20 +13,22 @@ import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.relay.SimpleListConnection;
 import graphql.schema.DataFetchingEnvironment;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @DgsComponent
+@AllArgsConstructor
 public class CustomerResolver {
-  @Autowired
-  private CustomerCommandService customerCommandService;
 
-  @Autowired
+  private CustomerCommandService customerCommandService;
   private CustomerQueryService customerQueryService;
+  private ProductQueryService productQueryService;
 
   @DgsMutation
   public CustomerMutationResponse addNewCustomer(@InputArgument AddCustomerInput customer) {
@@ -59,15 +63,24 @@ public class CustomerResolver {
           @InputArgument Integer page,
           @InputArgument Integer size
   ) {
-    var pageCustomer = customerQueryService.findCustomers(
-            customer, page, size
-    );
+    var pageCustomer = customerQueryService.findCustomers(customer, page, size);
 
-    var pageConnection = new SimpleListConnection<>(
-            pageCustomer.getContent()
-    ).get(env);
+    var listCustomerAsEntity = Optional.of(pageCustomer.getContent()).orElse(Collections.emptyList());
+    var listCustomerAsGraphql = listCustomerAsEntity.stream().map(CustomerMapper::mapToGraphqlEntity).toList();
+
+    var allSalesOrderItemsAsGraphql = listCustomerAsGraphql.stream()
+            .flatMap(c -> c.getSalesOrders().stream())
+            .flatMap(so -> so.getSalesOrderItems().stream())
+            .toList();
+
+    for (var salesOrderItem : allSalesOrderItemsAsGraphql) {
+      var simpleModel = productQueryService.loadSimpleModels(
+              Set.of(salesOrderItem.getModelUuid()));
+      salesOrderItem.setModelDetail(simpleModel.get(salesOrderItem.getModelUuid()));
+    }
 
     var paginatedResult = new CustomerPagination();
+    var pageConnection = new SimpleListConnection<>(listCustomerAsGraphql).get(env);
 
     paginatedResult.setCustomerConnection(pageConnection);
     paginatedResult.setPage(pageCustomer.getNumber());

@@ -4,7 +4,7 @@ import com.example.graphql.types.UniqueCustomerInput;
 import com.example.sales.datasource.entity.CustomerDto;
 import com.example.sales.datasource.repository.CustomerRepository;
 import com.example.sales.datasource.specification.CustomerSpecification;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,9 +19,9 @@ import java.util.Optional;
 import static org.apache.commons.lang3.StringUtils.*;
 
 @Service
+@AllArgsConstructor
 public class CustomerQueryService {
 
-  @Autowired
   private CustomerRepository customerRepository;
 
   public Optional<CustomerDto> findUniqueCustomer(UniqueCustomerInput input) {
