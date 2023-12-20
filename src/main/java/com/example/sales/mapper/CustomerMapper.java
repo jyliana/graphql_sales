@@ -38,17 +38,13 @@ public class CustomerMapper {
             .orElse(Collections.emptyList())
             .stream().map(AddressMapper::mapToGraphqlEntity)
             .toList();
-//        var mappedDocuments = Optional.ofNullable(original.getDocuments())
-//                .orElse(Collections.emptyList())
-//                .stream().map(DocumentMapper::mapToGraphqlEntity)
-//                .toList();
+
     var mappedSalesOrders = Optional.ofNullable(original.getSalesOrders())
             .orElse(Collections.emptyList())
             .stream().map(SalesOrderMapper::mapToGraphqlEntity)
             .toList();
 
     mapped.setAddresses(mappedAddress);
-//        mapped.setDocuments(mappedDocuments);
     mapped.setSalesOrders(mappedSalesOrders);
     mapped.setUuid(original.getUuid().toString());
     mapped.setEmail(original.getEmail());

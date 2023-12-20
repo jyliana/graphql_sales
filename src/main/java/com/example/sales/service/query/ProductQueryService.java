@@ -20,7 +20,6 @@ public class ProductQueryService {
 
   private ProductGraphQLClient productGraphQLClient;
   private ObjectMapper objectMapper;
-//  private ProductRestClient productRestClient;
 
   public Map<String, SimpleModel> loadSimpleModels(Set<String> modelUuids) {
     var variablesMap = Map.ofEntries(
@@ -44,11 +43,5 @@ public class ProductQueryService {
       return Collections.emptyMap();
     }
   }
-
-//  public Map<String, SimpleModel> loadSimpleModelsRest(Set<String> modelUuids) {
-//    var listSimpleModels = productRestClient.fetchRestSimpleModels(modelUuids);
-//
-//    return Maps.uniqueIndex(listSimpleModels, SimpleModel::getUuid);
-//  }
 
 }

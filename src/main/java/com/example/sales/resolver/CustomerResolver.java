@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @DgsComponent
 @AllArgsConstructor
@@ -67,17 +66,6 @@ public class CustomerResolver {
 
     var listCustomerAsEntity = Optional.of(pageCustomer.getContent()).orElse(Collections.emptyList());
     var listCustomerAsGraphql = listCustomerAsEntity.stream().map(CustomerMapper::mapToGraphqlEntity).toList();
-
-    var allSalesOrderItemsAsGraphql = listCustomerAsGraphql.stream()
-            .flatMap(c -> c.getSalesOrders().stream())
-            .flatMap(so -> so.getSalesOrderItems().stream())
-            .toList();
-
-    for (var salesOrderItem : allSalesOrderItemsAsGraphql) {
-      var simpleModel = productQueryService.loadSimpleModels(
-              Set.of(salesOrderItem.getModelUuid()));
-      salesOrderItem.setModelDetail(simpleModel.get(salesOrderItem.getModelUuid()));
-    }
 
     var paginatedResult = new CustomerPagination();
     var pageConnection = new SimpleListConnection<>(listCustomerAsGraphql).get(env);
