@@ -14,13 +14,12 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
 
 @DgsDataLoader(name = "productDataLoader")
-
 public class ProductDataLoader implements MappedBatchLoader<String, SimpleModel> {
 
-  private ProductQueryService productQueryService;
+  private final ProductQueryService productQueryService;
 
   @Qualifier(DataLoaderConstants.THREAD_POOL_EXECUTOR_NAME)
-  private Executor dataLoaderThreadPoolExecutor;
+  private final Executor dataLoaderThreadPoolExecutor;
 
   public ProductDataLoader(ProductQueryService productQueryService, Executor dataLoaderThreadPoolExecutor) {
     this.productQueryService = productQueryService;
