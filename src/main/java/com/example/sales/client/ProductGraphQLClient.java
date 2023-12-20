@@ -20,9 +20,9 @@ public class ProductGraphQLClient {
 
   private static final String URL = "http://localhost:8881/graphql";
 
-  private RestTemplate restTemplate = new RestTemplate();
+  private final RestTemplate restTemplate = new RestTemplate();
 
-  private CustomGraphQLClient graphQLClient = GraphQLClient.createCustom(
+  private final CustomGraphQLClient graphQLClient = GraphQLClient.createCustom(
           URL, (url, headers, body) -> {
             var httpHeaders = new HttpHeaders();
             headers.forEach(httpHeaders::addAll);
@@ -44,7 +44,7 @@ public class ProductGraphQLClient {
   public GraphQLResponse fetchGraphQLResponse(
           String grahpQLQuery,
           String operationName,
-          Map<String, ? extends Object> variablesMap
+          Map<String, ?> variablesMap
   ) {
     return graphQLClient.executeQuery(
             grahpQLQuery,
