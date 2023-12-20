@@ -2,6 +2,7 @@ package com.example.sales.datasource.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -37,5 +38,9 @@ public class CustomerDto {
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
   @Fetch(FetchMode.SUBSELECT)
   private List<CustomerDocument> documents;
+
+  @OneToMany(mappedBy = "customer")
+  @BatchSize(size = 50)
+  private List<SalesOrderDto> salesOrders;
 
 }

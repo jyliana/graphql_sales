@@ -11,6 +11,7 @@ import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.relay.SimpleListConnection;
 import graphql.schema.DataFetchingEnvironment;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,6 +99,29 @@ public class CustomerResolver {
             .customerUuid(existingCustomer.get().getUuid().toString())
             .success(true)
             .message(documentFile.getOriginalFilename() + " uploaded")
+            .build();
+  }
+
+  @DgsMutation
+  public CustomerMutationResponse updateExistingCustomer(@InputArgument UniqueCustomerInput customer,
+                                                         @InputArgument UpdateCustomerInput customerUpdate) {
+    if (StringUtils.isAllBlank(customerUpdate.getEmail(), customerUpdate.getPhone())) {
+      throw new IllegalArgumentException("Customer update must not empty");
+    }
+
+    var existingCustomer = customerQueryService.findUniqueCustomer(customer);
+
+    if (existingCustomer.isEmpty()) {
+      throw new DgsEntityNotFoundException(
+              String.format("Customer: uuid %s / email %s not found", customer.getUuid(), customer.getEmail()));
+    }
+
+    customerCommandService.updateCustomer(existingCustomer.get(), customerUpdate);
+
+    return CustomerMutationResponse.newBuilder()
+            .customerUuid(existingCustomer.get().getUuid().toString())
+            .success(true)
+            .message("Customer updated")
             .build();
   }
 
