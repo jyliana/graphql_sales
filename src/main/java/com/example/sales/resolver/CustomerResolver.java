@@ -5,7 +5,6 @@ import com.example.graphql.types.*;
 import com.example.sales.mapper.CustomerMapper;
 import com.example.sales.service.command.CustomerCommandService;
 import com.example.sales.service.query.CustomerQueryService;
-import com.example.sales.service.query.ProductQueryService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.DgsQuery;
@@ -27,7 +26,6 @@ public class CustomerResolver {
 
   private CustomerCommandService customerCommandService;
   private CustomerQueryService customerQueryService;
-  private ProductQueryService productQueryService;
 
   @DgsMutation
   public CustomerMutationResponse addNewCustomer(@InputArgument AddCustomerInput customer) {
